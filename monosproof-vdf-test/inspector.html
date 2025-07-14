@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VDF Object Inspector & Fixer</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            padding: 20px; 
+        }
+        .status { 
+            padding: 10px; 
+            margin: 10px 0; 
+            border-radius: 5px; 
+        }
+        .working { background-color: #fff3cd; border: 1px solid #ffecb5; }
+        .success { background-color: #d4edda; border: 1px solid #c3e6cb; }
+        .error { background-color: #f8d7da; border: 1px solid #f5c6cb; }
+        button { 
+            padding: 10px 20px; 
+            font-size: 16px; 
+            margin: 10px 5px; 
+            cursor: pointer; 
+        }
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .results { 
+            background: #f8f9fa; 
+            padding: 15px; 
+            border-radius: 5px; 
+            font-family: monospace; 
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .inspection { 
+            background: #e8f5e8; 
+            padding: 15px; 
+            border-radius: 5px; 
+            margin: 10px 0;
+            border-left: 4px solid #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 VDF Object Inspector & Fixer</h1>
+    
+    <div class="inspection">
+        <strong>🎯 Problem Found:</strong> Module exports an object, not a function<br>
+        <strong>🔧 Solution:</strong> Inspect the object to find the real createVdf function
+    </div>
+    
+    <div id="status" class="status">Inspecting VDF object structure...</div>
+    
+    <div>
+        <label>
+            Difficulty (iterations): 
+            <input type="number" id="iterations" value="1000" min="3" max="3000">
+        </label>
+        <small>(1000 iterations ≈ 2-5 seconds)</small>
+    </div>
+    
+    <div>
+        <button onclick="testVDF()" id="testBtn" disabled>🧪 Test VDF</button>
+        <button onclick="testProgressive()" id="progressBtn" disabled>📈 Progressive Test</button>
+        <button onclick="reinspect()" id="reinspectBtn">🔍 Re-inspect</button>
+    </div>
+    
+    <div id="results" class="results">Starting object inspection...</div>
+
+    <!-- Load RequireJS -->
+    <script src="https://requirejs.org/docs/release/2.3.6/minified/require.js"></script>
+    
+    <script>
+        let vdfInstance = null;
+        let exportedObject = null;
+
+        function updateStatus(message, type = 'working') {
+            const statusEl = document.getElementById('status');
+            statusEl.textContent = message;
+            statusEl.className = `status ${type}`;
+        }
+
+        function logResult(message) {
+            const resultsEl = document.getElementById('results');
+            const timestamp = new Date().toLocaleTimeString();
+            resultsEl.textContent += `[${timestamp}] ${message}\n`;
+            resultsEl.scrollTop = resultsEl.scrollHeight;
+        }
+
+        function inspectObjectDeep(obj, path = '', depth = 0) {
+            if (depth > 2) return; // Prevent infinite recursion
+            
+            const keys = Object.keys(obj || {});
+            const props = Object.getOwnPropertyNames(obj || {});
+            
+            logResult(`${path || 'Root'} object inspection:`);
+            logResult(`  Type: ${typeof obj}`);
+            logResult(`  Keys: [${keys.join(', ')}]`);
+            logResult(`  Properties: [${props.join(', ')}]`);
+            
+            // Look for functions
+            const functions = [];
+            const objects = [];
+            
+            for (const key of props) {
+                try {
+                    const value = obj[key];
+                    const type = typeof value;
+                    
+                    logResult(`  ${key}: ${type}`);
+                    
+                    if (type === 'function') {
+                        functions.push(key);
+                        logResult(`    📋 Function: ${key}()`);
+                    } else if (type === 'object' && value !== null && depth < 1) {
+                        objects.push(key);
+                        logResult(`    📁 Object: ${key}`);
+                    }
+                } catch (error) {
+                    logResult(`    ❌ Error inspecting ${key}: ${error.message}`);
+                }
+            }
+            
+            // Inspect nested objects that might contain createVdf
+            for (const objKey of objects) {
+                if (depth < 1) {
+                    try {
+                        logResult(`\n--- Inspecting ${path}.${objKey} ---`);
+                        inspectObjectDeep(obj[objKey], `${path}.${objKey}`, depth + 1);
+                    } catch (error) {
+                        logResult(`❌ Error inspecting nested object ${objKey}: ${error.message}`);
+                    }
+                }
+            }
+            
+            return { functions, objects };
+        }
+
+        function findCreateVdf(obj) {
+            // Strategy 1: Direct function
+            if (typeof obj === 'function') {
+                logResult('✅ Found: Object itself is a function');
+                return obj;
+            }
+            
+            // Strategy 2: Look for createVdf property
+            if (obj && typeof obj.createVdf === 'function') {
+                logResult('✅ Found: obj.createVdf');
+                return obj.createVdf;
+            }
+            
+            // Strategy 3: Look for default export
+            if (obj && typeof obj.default === 'function') {
+                logResult('✅ Found: obj.default');
+                return obj.default;
+            }
+            
+            // Strategy 4: Look for any function that might be createVdf
+            if (obj && typeof obj === 'object') {
+                const functionNames = ['vdf', 'VDF', 'create', 'init', 'factory'];
+                for (const name of functionNames) {
+                    if (typeof obj[name] === 'function') {
+                        logResult(`✅ Found: obj.${name}`);
+                        return obj[name];
+                    }
+                }
+                
+                // Strategy 5: Look in nested objects
+                for (const key of Object.keys(obj)) {
+                    if (typeof obj[key] === 'object' && obj[key] !== null) {
+                        const nested = findCreateVdf(obj[key]);
+                        if (nested) {
+                            logResult(`✅ Found: obj.${key}.[function]`);
+                            return nested;
+                        }
+                    }
+                }
+            }
+            
+            logResult('❌ No createVdf function found');
+            return null;
+        }
+
+        function initVDF() {
+            updateStatus('🔄 Loading and inspecting VDF object...', 'working');
+            logResult('=== DETAILED VDF OBJECT INSPECTION ===');
+            
+            try {
+                // Configure RequireJS
+                requirejs.config({
+                    paths: {
+                        '@subspace/vdf': './node_modules/@subspace/vdf/dist/index'
+                    }
+                });
+
+                requirejs(['@subspace/vdf'], function (createVdfObject) {
+                    exportedObject = createVdfObject;
+                    
+                    logResult('✅ RequireJS loaded @subspace/vdf module');
+                    logResult(`Module type: ${typeof createVdfObject}`);
+                    logResult(`Is null: ${createVdfObject === null}`);
+                    logResult(`Is undefined: ${createVdfObject === undefined}`);
+                    
+                    // Deep inspection
+                    inspectObjectDeep(createVdfObject);
+                    
+                    // Try to find the actual createVdf function
+                    logResult('\n=== SEARCHING FOR CREATEVDF FUNCTION ===');
+                    const createVdf = findCreateVdf(createVdfObject);
+                    
+                    if (createVdf) {
+                        logResult('🚀 Attempting to create VDF instance...');
+                        
+                        createVdf()
+                            .then((instance) => {
+                                logResult('✅ VDF instance created successfully!');
+                                logResult(`Instance type: ${typeof instance}`);
+                                
+                                // Inspect instance
+                                logResult('\n=== VDF INSTANCE INSPECTION ===');
+                                inspectObjectDeep(instance);
+                                
+                                // Check for required methods
+                                if (typeof instance.generate === 'function' && 
+                                    typeof instance.verify === 'function') {
+                                    
+                                    vdfInstance = instance;
+                                    updateStatus('✅ VDF loaded and ready!', 'success');
+                                    logResult('🎉 VDF instance ready with generate() and verify() methods');
+                                    
+                                    // Enable buttons
+                                    document.getElementById('testBtn').disabled = false;
+                                    document.getElementById('progressBtn').disabled = false;
+                                    
+                                } else {
+                                    logResult('❌ VDF instance missing required methods');
+                                    updateStatus('❌ VDF instance invalid', 'error');
+                                }
+                            })
+                            .catch((error) => {
+                                logResult(`❌ createVdf() failed: ${error.message}`);
+                                logResult(`Error stack: ${error.stack || 'No stack'}`);
+                                updateStatus('❌ VDF creation failed', 'error');
+                            });
+                    } else {
+                        updateStatus('❌ createVdf function not found', 'error');
+                        logResult('❌ Could not locate createVdf function in module exports');
+                        
+                        // Show all available methods for debugging
+                        logResult('\n=== ALL AVAILABLE PROPERTIES ===');
+                        try {
+                            const allProps = Object.getOwnPropertyNames(createVdfObject);
+                            for (const prop of allProps) {
+                                const value = createVdfObject[prop];
+                                logResult(`${prop}: ${typeof value} ${typeof value === 'function' ? '(function)' : ''}`);
+                            }
+                        } catch (error) {
+                            logResult(`Error listing properties: ${error.message}`);
+                        }
+                    }
+                    
+                }, function (error) {
+                    logResult(`❌ RequireJS failed: ${error.message}`);
+                    updateStatus('❌ Module loading failed', 'error');
+                });
+                
+            } catch (error) {
+                logResult(`❌ RequireJS setup failed: ${error.message}`);
+                updateStatus('❌ Setup failed', 'error');
+            }
+        }
+
+        function testVDF() {
+            if (!vdfInstance) {
+                logResult('❌ VDF not available');
+                return;
+            }
+
+            const iterations = parseInt(document.getElementById('iterations').value);
+            
+            updateStatus(`🔄 Testing VDF with ${iterations} iterations...`, 'working');
+            logResult(`=== VDF TEST (${iterations} iterations) ===`);
+            
+            try {
+                const startTime = Date.now();
+                
+                // Test parameters
+                const challenge = new Uint8Array([1, 2, 3, 4]);
+                const intSizeBits = 2048;
+                const isPietrzak = false;
+                
+                logResult(`Challenge: [${Array.from(challenge).join(', ')}]`);
+                logResult('Calling generate()...');
+                
+                const proof = vdfInstance.generate(iterations, challenge, intSizeBits, isPietrzak);
+                const duration = ((Date.now() - startTime) / 1000).toFixed(2);
+                
+                logResult(`✅ Proof generated in ${duration}s`);
+                logResult(`Proof length: ${proof.length} bytes`);
+                
+                // Verify
+                logResult('Calling verify()...');
+                const isValid = vdfInstance.verify(iterations, challenge, proof, intSizeBits, isPietrzak);
+                
+                logResult(`✅ Verification: ${isValid ? 'VALID' : 'INVALID'}`);
+                logResult(`Rate: ${Math.round(iterations / parseFloat(duration))} iter/s`);
+                
+                updateStatus(`✅ Test completed in ${duration}s`, 'success');
+                
+            } catch (error) {
+                logResult(`❌ Test failed: ${error.message}`);
+                updateStatus(`❌ Test failed`, 'error');
+            }
+        }
+
+        function testProgressive() {
+            if (!vdfInstance) return;
+
+            updateStatus('🔄 Testing progressive scaling...', 'working');
+            logResult('=== PROGRESSIVE SCALING TEST ===');
+            
+            const tests = [300, 450, 675]; // 1x, 1.5x, 2.25x
+            
+            for (let i = 0; i < tests.length; i++) {
+                const difficulty = tests[i];
+                
+                try {
+                    logResult(`Test ${i + 1}: ${difficulty} iterations...`);
+                    
+                    const startTime = Date.now();
+                    const challenge = new Uint8Array([10 + i]);
+                    
+                    const proof = vdfInstance.generate(difficulty, challenge, 2048, false);
+                    const duration = ((Date.now() - startTime) / 1000).toFixed(2);
+                    const isValid = vdfInstance.verify(difficulty, challenge, proof, 2048, false);
+                    
+                    logResult(`  ✅ ${duration}s (${isValid ? 'valid' : 'invalid'})`);
+                    
+                } catch (error) {
+                    logResult(`  ❌ Failed: ${error.message}`);
+                }
+            }
+            
+            updateStatus('✅ Progressive test completed', 'success');
+        }
+
+        function reinspect() {
+            document.getElementById('results').textContent = '';
+            vdfInstance = null;
+            document.getElementById('testBtn').disabled = true;
+            document.getElementById('progressBtn').disabled = true;
+            initVDF();
+        }
+
+        // Make functions available globally
+        window.testVDF = testVDF;
+        window.testProgressive = testProgressive;
+        window.reinspect = reinspect;
+
+        // Initialize
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                if (typeof requirejs === 'undefined') {
+                    updateStatus('❌ RequireJS failed to load', 'error');
+                } else {
+                    initVDF();
+                }
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

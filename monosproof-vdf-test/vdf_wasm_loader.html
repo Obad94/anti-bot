@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VDF with Manual WASM Loading</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            padding: 20px; 
+        }
+        .status { 
+            padding: 10px; 
+            margin: 10px 0; 
+            border-radius: 5px; 
+        }
+        .working { background-color: #fff3cd; border: 1px solid #ffecb5; }
+        .success { background-color: #d4edda; border: 1px solid #c3e6cb; }
+        .error { background-color: #f8d7da; border: 1px solid #f5c6cb; }
+        button { 
+            padding: 10px 20px; 
+            font-size: 16px; 
+            margin: 10px 5px; 
+            cursor: pointer; 
+        }
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .results { 
+            background: #f8f9fa; 
+            padding: 15px; 
+            border-radius: 5px; 
+            font-family: monospace; 
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .fix { 
+            background: #fff3cd; 
+            padding: 15px; 
+            border-radius: 5px; 
+            margin: 10px 0;
+            border-left: 4px solid #ffc107;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔧 VDF with Manual WASM Loading</h1>
+    
+    <div class="fix">
+        <strong>🎯 Issue Identified:</strong> VDF module can't find vdf.wasm file<br>
+        <strong>🔧 Solution:</strong> Pre-load WASM and provide it to the VDF module
+    </div>
+    
+    <div id="status" class="status">Pre-loading WebAssembly module...</div>
+    
+    <div>
+        <label>
+            Difficulty (iterations): 
+            <input type="number" id="iterations" value="1000" min="10" max="3000">
+        </label>
+        <small>(1000 iterations ≈ 2-5 seconds)</small>
+    </div>
+    
+    <div>
+        <button onclick="testVDF()" id="testBtn" disabled>🧪 Test VDF</button>
+        <button onclick="testProgressive()" id="progressBtn" disabled>📈 Progressive Test</button>
+        <button onclick="testMonosProof()" id="monosBtn" disabled>🎫 MonosProof Demo</button>
+    </div>
+    
+    <div id="results" class="results">Pre-loading WASM module...</div>
+
+    <!-- Load RequireJS -->
+    <script src="https://requirejs.org/docs/release/2.3.6/minified/require.js"></script>
+    
+    <script>
+        let vdfInstance = null;
+        let wasmModule = null;
+
+        function updateStatus(message, type = 'working') {
+            const statusEl = document.getElementById('status');
+            statusEl.textContent = message;
+            statusEl.className = `status ${type}`;
+        }
+
+        function logResult(message) {
+            const resultsEl = document.getElementById('results');
+            const timestamp = new Date().toLocaleTimeString();
+            resultsEl.textContent += `[${timestamp}] ${message}\n`;
+            resultsEl.scrollTop = resultsEl.scrollHeight;
+        }
+
+        function enableButtons() {
+            document.getElementById('testBtn').disabled = false;
+            document.getElementById('progressBtn').disabled = false;
+            document.getElementById('monosBtn').disabled = false;
+        }
+
+        // Step 1: Pre-load the WASM module
+        async function preloadWasm() {
+            try {
+                updateStatus('🔄 Loading WebAssembly module...', 'working');
+                logResult('=== PRE-LOADING WEBASSEMBLY ===');
+                
+                // Load the WASM file
+                logResult('Fetching vdf.wasm...');
+                const wasmResponse = await fetch('./node_modules/@subspace/vdf/dist/vdf.wasm');
+                
+                if (!wasmResponse.ok) {
+                    throw new Error(`WASM fetch failed: ${wasmResponse.status} ${wasmResponse.statusText}`);
+                }
+                
+                const wasmBytes = await wasmResponse.arrayBuffer();
+                logResult(`✅ WASM loaded: ${wasmBytes.byteLength} bytes`);
+                
+                // Store for later use
+                window.wasmBytes = wasmBytes;
+                
+                return true;
+                
+            } catch (error) {
+                logResult(`❌ WASM pre-loading failed: ${error.message}`);
+                updateStatus('❌ WASM loading failed', 'error');
+                return false;
+            }
+        }
+
+        // Step 2: Load VDF with WASM available
+        async function initVDF() {
+            try {
+                updateStatus('🔄 Initializing VDF with pre-loaded WASM...', 'working');
+                logResult('=== INITIALIZING VDF MODULE ===');
+                
+                // Configure RequireJS
+                requirejs.config({
+                    paths: {
+                        '@subspace/vdf': './node_modules/@subspace/vdf/dist/index'
+                    }
+                });
+
+                return new Promise((resolve, reject) => {
+                    requirejs(['@subspace/vdf'], function (vdfModule) {
+                        logResult('✅ VDF module loaded via RequireJS');
+                        logResult(`Module type: ${typeof vdfModule}`);
+                        logResult(`Has default: ${!!vdfModule.default}`);
+                        
+                        // Get the createVdf function
+                        const createVdf = vdfModule.default;
+                        
+                        if (typeof createVdf !== 'function') {
+                            reject(new Error('createVdf is not a function'));
+                            return;
+                        }
+                        
+                        logResult('🚀 Calling createVdf with WASM options...');
+                        
+                        // Try different initialization approaches
+                        tryInitMethods(createVdf, resolve, reject);
+                        
+                    }, function (error) {
+                        reject(new Error(`RequireJS failed: ${error.message}`));
+                    });
+                });
+                
+            } catch (error) {
+                logResult(`❌ VDF initialization failed: ${error.message}`);
+                updateStatus('❌ VDF init failed', 'error');
+                return false;
+            }
+        }
+
+        async function tryInitMethods(createVdf, resolve, reject) {
+            const methods = [
+                // Method 1: Default call
+                () => {
+                    logResult('Method 1: Default createVdf() call...');
+                    return createVdf();
+                },
+                
+                // Method 2: With empty options
+                () => {
+                    logResult('Method 2: createVdf({}) with empty options...');
+                    return createVdf({});
+                },
+                
+                // Method 3: With WASM binary
+                () => {
+                    logResult('Method 3: createVdf with wasmBinary...');
+                    return createVdf({
+                        wasmBinary: window.wasmBytes
+                    });
+                },
+                
+                // Method 4: With locate file function
+                () => {
+                    logResult('Method 4: createVdf with locateFile...');
+                    return createVdf({
+                        locateFile: (path, prefix) => {
+                            logResult(`locateFile called: ${path}, prefix: ${prefix}`);
+                            if (path.endsWith('.wasm')) {
+                                return './node_modules/@subspace/vdf/dist/vdf.wasm';
+                            }
+                            return prefix + path;
+                        }
+                    });
+                },
+                
+                // Method 5: Direct WASM loading
+                async () => {
+                    logResult('Method 5: Direct WASM instantiation...');
+                    
+                    // Try to load the WASM directly and create wrapper
+                    const wasmModule = await WebAssembly.instantiate(window.wasmBytes);
+                    
+                    // This would need the JS wrapper to work properly
+                    // For now, just try the regular call
+                    return createVdf({
+                        wasmModule: wasmModule.instance
+                    });
+                }
+            ];
+
+            for (let i = 0; i < methods.length; i++) {
+                try {
+                    logResult(`\n--- Trying initialization method ${i + 1} ---`);
+                    
+                    const instance = await methods[i]();
+                    
+                    logResult(`✅ Method ${i + 1} succeeded!`);
+                    logResult(`Instance type: ${typeof instance}`);
+                    
+                    // Verify the instance has required methods
+                    if (instance && typeof instance.generate === 'function' && 
+                        typeof instance.verify === 'function') {
+                        
+                        vdfInstance = instance;
+                        updateStatus('✅ VDF loaded successfully!', 'success');
+                        logResult('🎉 VDF instance ready with all methods');
+                        enableButtons();
+                        resolve(true);
+                        return;
+                    } else {
+                        logResult(`❌ Method ${i + 1}: Instance missing required methods`);
+                    }
+                    
+                } catch (error) {
+                    logResult(`❌ Method ${i + 1} failed: ${error.message}`);
+                    if (error.stack) {
+                        logResult(`Stack: ${error.stack.split('\n')[0]}`);
+                    }
+                }
+            }
+            
+            reject(new Error('All initialization methods failed'));
+        }
+
+        async function testVDF() {
+            if (!vdfInstance) {
+                logResult('❌ VDF not available');
+                return;
+            }
+
+            const iterations = parseInt(document.getElementById('iterations').value);
+            
+            updateStatus(`🔄 Testing VDF with ${iterations} iterations...`, 'working');
+            logResult(`=== VDF TEST (${iterations} iterations) ===`);
+            
+            try {
+                const startTime = Date.now();
+                
+                // Simple test case
+                const challenge = new Uint8Array([1, 2, 3, 4]);
+                const intSizeBits = 2048;
+                const isPietrzak = false;
+                
+                logResult(`Challenge: [${Array.from(challenge).join(', ')}]`);
+                logResult('Generating proof...');
+                
+                const proof = vdfInstance.generate(iterations, challenge, intSizeBits, isPietrzak);
+                const duration = ((Date.now() - startTime) / 1000).toFixed(2);
+                
+                logResult(`✅ Proof generated in ${duration}s`);
+                logResult(`Proof length: ${proof.length} bytes`);
+                
+                // Verify
+                logResult('Verifying proof...');
+                const isValid = vdfInstance.verify(iterations, challenge, proof, intSizeBits, isPietrzak);
+                
+                logResult(`✅ Verification: ${isValid ? 'VALID ✅' : 'INVALID ❌'}`);
+                logResult(`Rate: ${Math.round(iterations / parseFloat(duration))} iterations/second`);
+                logResult('=== TEST COMPLETE ===');
+                
+                updateStatus(`✅ Test completed in ${duration}s`, 'success');
+                
+            } catch (error) {
+                logResult(`❌ Test failed: ${error.message}`);
+                updateStatus(`❌ Test failed`, 'error');
+            }
+        }
+
+        async function testProgressive() {
+            if (!vdfInstance) return;
+
+            updateStatus('🔄 Testing progressive scaling...', 'working');
+            logResult('=== PROGRESSIVE SCALING DEMO ===');
+            
+            const baseDifficulty = 300;
+            const multipliers = [1, 1.5, 2.25]; // Progressive scaling
+            
+            for (let i = 0; i < multipliers.length; i++) {
+                const difficulty = Math.floor(baseDifficulty * multipliers[i]);
+                
+                try {
+                    logResult(`Purchase ${i + 1}: ${difficulty} iterations (${multipliers[i]}x base)...`);
+                    
+                    const startTime = Date.now();
+                    const challenge = new Uint8Array([10 + i]);
+                    
+                    const proof = vdfInstance.generate(difficulty, challenge, 2048, false);
+                    const duration = ((Date.now() - startTime) / 1000).toFixed(2);
+                    const isValid = vdfInstance.verify(difficulty, challenge, proof, 2048, false);
+                    
+                    logResult(`  ✅ Completed in ${duration}s (${isValid ? 'valid' : 'invalid'})`);
+                    
+                    if (i > 0) {
+                        const expectedMultiplier = multipliers[i];
+                        logResult(`  📊 Expected ~${expectedMultiplier}x slower than first purchase`);
+                    }
+                    
+                } catch (error) {
+                    logResult(`  ❌ Purchase ${i + 1} failed: ${error.message}`);
+                }
+            }
+            
+            logResult('=== PROGRESSIVE DEMO COMPLETE ===');
+            updateStatus('✅ Progressive test completed', 'success');
+        }
+
+        async function testMonosProof() {
+            if (!vdfInstance) return;
+
+            updateStatus('🔄 MonosProof anti-bot simulation...', 'working');
+            logResult('=== MONOSPROOF ANTI-BOT SIMULATION ===');
+            
+            // Simulate 5 purchases with MonosProof scaling
+            const baseDifficulty = 400;
+            
+            for (let purchaseNum = 1; purchaseNum <= 5; purchaseNum++) {
+                // MonosProof formula from your docs
+                const globalMultiplier = 1 + ((purchaseNum - 1) * 0.1);
+                const userMultiplier = Math.pow(1.3, purchaseNum - 1);
+                const finalDifficulty = Math.floor(baseDifficulty * globalMultiplier * userMultiplier);
+                
+                logResult(`\n--- Purchase #${purchaseNum} ---`);
+                logResult(`Base: ${baseDifficulty}, Global: ${globalMultiplier.toFixed(2)}x, User: ${userMultiplier.toFixed(2)}x`);
+                logResult(`Final difficulty: ${finalDifficulty} iterations`);
+                
+                try {
+                    const startTime = Date.now();
+                    
+                    // Unique challenge per purchase
+                    const challenge = new TextEncoder().encode(`purchase_${purchaseNum}_${Date.now()}`);
+                    const challengeHash = new Uint8Array(challenge.slice(0, 8));
+                    
+                    const proof = vdfInstance.generate(finalDifficulty, challengeHash, 2048, false);
+                    const duration = ((Date.now() - startTime) / 1000).toFixed(2);
+                    const isValid = vdfInstance.verify(finalDifficulty, challengeHash, proof, 2048, false);
+                    
+                    if (isValid) {
+                        logResult(`✅ Purchase #${purchaseNum} APPROVED in ${duration}s`);
+                        
+                        const totalMultiplier = globalMultiplier * userMultiplier;
+                        logResult(`💰 ${totalMultiplier.toFixed(1)}x cost vs first purchase`);
+                        
+                        const electricityCost = (parseFloat(duration) / 3600) * 0.12;
+                        logResult(`⚡ Electricity: $${electricityCost.toFixed(6)}`);
+                    } else {
+                        throw new Error('Proof verification failed');
+                    }
+                    
+                } catch (error) {
+                    logResult(`❌ Purchase #${purchaseNum} FAILED: ${error.message}`);
+                }
+            }
+            
+            logResult('\n🎯 MonosProof Result: Bulk purchasing becomes exponentially expensive!');
+            logResult('=== ANTI-BOT SIMULATION COMPLETE ===');
+            updateStatus('✅ MonosProof simulation completed', 'success');
+        }
+
+        // Make functions globally available
+        window.testVDF = testVDF;
+        window.testProgressive = testProgressive;
+        window.testMonosProof = testMonosProof;
+
+        // Initialize everything
+        async function fullInit() {
+            try {
+                // Step 1: Pre-load WASM
+                const wasmLoaded = await preloadWasm();
+                if (!wasmLoaded) return;
+                
+                // Step 2: Initialize VDF
+                await initVDF();
+                
+            } catch (error) {
+                logResult(`❌ Full initialization failed: ${error.message}`);
+                updateStatus('❌ Initialization failed', 'error');
+            }
+        }
+
+        // Start when page loads
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                if (typeof requirejs === 'undefined') {
+                    updateStatus('❌ RequireJS failed to load', 'error');
+                } else {
+                    fullInit();
+                }
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

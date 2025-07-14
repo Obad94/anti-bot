@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VDF Using Official Pattern</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            padding: 20px; 
+        }
+        .status { 
+            padding: 10px; 
+            margin: 10px 0; 
+            border-radius: 5px; 
+        }
+        .working { background-color: #fff3cd; border: 1px solid #ffecb5; }
+        .success { background-color: #d4edda; border: 1px solid #c3e6cb; }
+        .error { background-color: #f8d7da; border: 1px solid #f5c6cb; }
+        button { 
+            padding: 10px 20px; 
+            font-size: 16px; 
+            margin: 10px 5px; 
+            cursor: pointer; 
+        }
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .results { 
+            background: #f8f9fa; 
+            padding: 15px; 
+            border-radius: 5px; 
+            font-family: monospace; 
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .official { 
+            background: #e8f4fd; 
+            padding: 15px; 
+            border-radius: 5px; 
+            margin: 10px 0;
+            border-left: 4px solid #2196F3;
+        }
+    </style>
+</head>
+<body>
+    <h1>🛡️ VDF Using Official Pattern</h1>
+    
+    <div class="official">
+        <strong>📖 Following Official Documentation:</strong><br>
+        Using RequireJS pattern exactly as shown in @subspace/vdf docs
+    </div>
+    
+    <div id="status" class="status">Loading RequireJS and VDF...</div>
+    
+    <div>
+        <label>
+            Difficulty (iterations): 
+            <input type="number" id="iterations" value="1000" min="3" max="5000">
+        </label>
+        <small>(Start with 1000 ≈ 2-5 seconds)</small>
+    </div>
+    
+    <div>
+        <button onclick="runOfficialExample()" id="officialBtn" disabled>📖 Run Official Example</button>
+        <button onclick="testBasicVDF()" id="testBtn" disabled>🧪 Test Basic VDF</button>
+        <button onclick="testMonosProof()" id="monosBtn" disabled>🎫 MonosProof Test</button>
+    </div>
+    
+    <div id="results" class="results">Loading VDF using official pattern...</div>
+
+    <!-- Load RequireJS -->
+    <script src="https://requirejs.org/docs/release/2.3.6/minified/require.js"></script>
+    
+    <script>
+        let vdfInstance = null;
+
+        function updateStatus(message, type = 'working') {
+            const statusEl = document.getElementById('status');
+            statusEl.textContent = message;
+            statusEl.className = `status ${type}`;
+        }
+
+        function logResult(message) {
+            const resultsEl = document.getElementById('results');
+            const timestamp = new Date().toLocaleTimeString();
+            resultsEl.textContent += `[${timestamp}] ${message}\n`;
+            resultsEl.scrollTop = resultsEl.scrollHeight;
+        }
+
+        function enableButtons() {
+            document.getElementById('officialBtn').disabled = false;
+            document.getElementById('testBtn').disabled = false;
+            document.getElementById('monosBtn').disabled = false;
+        }
+
+        // Initialize using the exact official pattern
+        function initVDFOfficial() {
+            updateStatus('🔄 Loading VDF using RequireJS (official pattern)...', 'working');
+            logResult('Following official documentation pattern...');
+            logResult('Using: requirejs(["@subspace/vdf"], function (createVdf) {...});');
+            
+            try {
+                // Configure RequireJS to find our local module
+                requirejs.config({
+                    paths: {
+                        '@subspace/vdf': './node_modules/@subspace/vdf/dist/index'
+                    }
+                });
+
+                // Use exact pattern from official docs
+                requirejs(['@subspace/vdf'], function (createVdf) {
+                    logResult('✅ RequireJS loaded @subspace/vdf module');
+                    logResult('createVdf type: ' + typeof createVdf);
+                    
+                    if (typeof createVdf !== 'function') {
+                        logResult('❌ createVdf is not a function: ' + typeof createVdf);
+                        updateStatus('❌ VDF module loading failed', 'error');
+                        return;
+                    }
+                    
+                    logResult('🚀 Calling createVdf()...');
+                    
+                    createVdf()
+                        .then((vdfInstance_) => {
+                            logResult('✅ VDF instance created successfully!');
+                            logResult('Instance type: ' + typeof vdfInstance_);
+                            logResult('Available methods: ' + Object.keys(vdfInstance_).join(', '));
+                            
+                            // Verify methods exist
+                            if (typeof vdfInstance_.generate === 'function' && 
+                                typeof vdfInstance_.verify === 'function') {
+                                
+                                vdfInstance = vdfInstance_;
+                                updateStatus('✅ VDF loaded successfully using official pattern!', 'success');
+                                logResult('🎉 VDF ready - all methods verified');
+                                enableButtons();
+                                
+                            } else {
+                                logResult('❌ VDF instance missing required methods');
+                                updateStatus('❌ VDF instance invalid', 'error');
+                            }
+                        })
+                        .catch((error) => {
+                            logResult('❌ createVdf() failed: ' + error.message);
+                            updateStatus('❌ VDF creation failed: ' + error.message, 'error');
+                        });
+                }, function (error) {
+                    logResult('❌ RequireJS failed to load module: ' + error.message);
+                    updateStatus('❌ Module loading failed: ' + error.message, 'error');
+                });
+                
+            } catch (error) {
+                logResult('❌ RequireJS setup failed: ' + error.message);
+                updateStatus('❌ RequireJS setup failed: ' + error.message, 'error');
+            }
+        }
+
+        // Run the exact official example
+        function runOfficialExample() {
+            if (!vdfInstance) {
+                logResult('❌ VDF not loaded');
+                return;
+            }
+
+            updateStatus('🔄 Running official example...', 'working');
+            logResult('=== OFFICIAL EXAMPLE (from docs) ===');
+            
+            try {
+                // Exact parameters from official docs
+                const iterations = 3;
+                const challenge = Uint8Array.of(170); // Official example uses 170
+                const intSizeBits = 2048;
+                const isPietrzak = false;
+                
+                logResult(`Parameters: iterations=${iterations}, challenge=[${challenge[0]}], intSizeBits=${intSizeBits}, isPietrzak=${isPietrzak}`);
+                
+                const startTime = Date.now();
+                
+                // Generate proof (official method)
+                logResult('Calling vdfInstance.generate()...');
+                const res = vdfInstance.generate(iterations, challenge, intSizeBits, isPietrzak);
+                
+                const duration = ((Date.now() - startTime) / 1000).toFixed(2);
+                
+                // Convert to hex like in official example
+                const hexResult = res.reduce(
+                    (str, byte) => {
+                        return str + byte.toString(16).padStart(2, '0');
+                    },
+                    ''
+                );
+                
+                logResult(`✅ Generated proof in ${duration}s`);
+                logResult(`Proof (hex): ${hexResult}`);
+                
+                // Verify proof (official method)
+                logResult('Calling vdfInstance.verify()...');
+                const isValid = vdfInstance.verify(iterations, challenge, res, intSizeBits, isPietrzak);
+                
+                logResult(`✅ Verification result: ${isValid}`);
+                logResult('=== OFFICIAL EXAMPLE COMPLETE ===');
+                
+                updateStatus(`✅ Official example completed in ${duration}s`, 'success');
+                
+            } catch (error) {
+                logResult(`❌ Official example failed: ${error.message}`);
+                updateStatus(`❌ Official example failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Test with custom parameters
+        function testBasicVDF() {
+            if (!vdfInstance) {
+                logResult('❌ VDF not loaded');
+                return;
+            }
+
+            const iterations = parseInt(document.getElementById('iterations').value);
+            
+            updateStatus(`🔄 Testing VDF with ${iterations} iterations...`, 'working');
+            logResult(`=== BASIC VDF TEST (${iterations} iterations) ===`);
+            
+            try {
+                const startTime = Date.now();
+                
+                // Create challenge
+                const challenge = new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8]);
+                const intSizeBits = 2048;
+                const isPietrzak = false; // Use Wesolowski VDF
+                
+                logResult(`Challenge: [${Array.from(challenge).join(', ')}]`);
+                
+                // Generate proof
+                const proof = vdfInstance.generate(iterations, challenge, intSizeBits, isPietrzak);
+                const duration = ((Date.now() - startTime) / 1000).toFixed(2);
+                
+                logResult(`✅ Proof generated in ${duration}s`);
+                logResult(`Proof length: ${proof.length} bytes`);
+                
+                // Verify proof
+                const isValid = vdfInstance.verify(iterations, challenge, proof, intSizeBits, isPietrzak);
+                
+                logResult(`✅ Verification: ${isValid ? 'VALID' : 'INVALID'}`);
+                logResult(`Rate: ${Math.round(iterations / parseFloat(duration))} iter/s`);
+                logResult('=== BASIC TEST COMPLETE ===');
+                
+                updateStatus(`✅ Test completed in ${duration}s`, 'success');
+                
+            } catch (error) {
+                logResult(`❌ Test failed: ${error.message}`);
+                updateStatus(`❌ Test failed: ${error.message}`, 'error');
+            }
+        }
+
+        // MonosProof-style progressive test
+        function testMonosProof() {
+            if (!vdfInstance) {
+                logResult('❌ VDF not loaded');
+                return;
+            }
+
+            updateStatus('🔄 Testing MonosProof progressive scaling...', 'working');
+            logResult('=== MONOSPROOF PROGRESSIVE TEST ===');
+            
+            const baseDifficulty = 500;
+            const purchaseCount = 3;
+            
+            // MonosProof formula from docs
+            const globalMultiplier = 1 + (purchaseCount * 0.1);
+            const userMultiplier = Math.pow(1.3, purchaseCount);
+            const finalDifficulty = Math.floor(baseDifficulty * globalMultiplier * userMultiplier);
+            
+            logResult(`MonosProof Scaling:`);
+            logResult(`  Base difficulty: ${baseDifficulty}`);
+            logResult(`  Global multiplier: ${globalMultiplier.toFixed(2)}x`);
+            logResult(`  User multiplier: ${userMultiplier.toFixed(2)}x`);
+            logResult(`  Final difficulty: ${finalDifficulty} iterations`);
+            
+            try {
+                const startTime = Date.now();
+                
+                // Create unique challenge for purchase
+                const challengeData = `purchase_${purchaseCount}_${Date.now()}`;
+                const challenge = new TextEncoder().encode(challengeData);
+                const challengeHash = new Uint8Array(challenge.slice(0, 8)); // First 8 bytes
+                
+                logResult(`Challenge hash: [${Array.from(challengeHash).join(', ')}]`);
+                
+                // Generate proof
+                const proof = vdfInstance.generate(finalDifficulty, challengeHash, 2048, false);
+                const duration = ((Date.now() - startTime) / 1000).toFixed(2);
+                
+                // Verify proof
+                const isValid = vdfInstance.verify(finalDifficulty, challengeHash, proof, 2048, false);
+                
+                if (isValid) {
+                    logResult(`✅ Purchase #${purchaseCount} APPROVED in ${duration}s`);
+                    logResult(`💰 Proof size: ${proof.length} bytes`);
+                    logResult(`⚡ Rate: ${Math.round(finalDifficulty / parseFloat(duration))} iter/s`);
+                    
+                    // Economic analysis
+                    const cost = (parseFloat(duration) / 3600) * 0.12;
+                    logResult(`💸 Electricity cost: $${cost.toFixed(6)}`);
+                    
+                    const totalMultiplier = globalMultiplier * userMultiplier;
+                    logResult(`📊 ${totalMultiplier.toFixed(1)}x harder than first purchase`);
+                    
+                    updateStatus(`✅ MonosProof test completed in ${duration}s`, 'success');
+                } else {
+                    throw new Error('Proof verification failed');
+                }
+                
+            } catch (error) {
+                logResult(`❌ MonosProof test failed: ${error.message}`);
+                updateStatus(`❌ Test failed: ${error.message}`, 'error');
+            }
+            
+            logResult('=== MONOSPROOF TEST COMPLETE ===');
+        }
+
+        // Make functions globally available
+        window.runOfficialExample = runOfficialExample;
+        window.testBasicVDF = testBasicVDF;
+        window.testMonosProof = testMonosProof;
+
+        // Initialize when page loads
+        window.addEventListener('load', () => {
+            updateStatus('🔄 Initializing RequireJS...', 'working');
+            logResult('Page loaded, starting VDF initialization...');
+            
+            // Give RequireJS time to load
+            setTimeout(() => {
+                if (typeof requirejs === 'undefined') {
+                    updateStatus('❌ RequireJS failed to load', 'error');
+                    logResult('❌ RequireJS not available. Check internet connection.');
+                } else {
+                    logResult('✅ RequireJS loaded successfully');
+                    initVDFOfficial();
+                }
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
