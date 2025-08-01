@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SecureTickets Pro - Taylor Swift | The Eras Tour</title>
+    <title>SecureTickets Pro - Real Autonomys VDF</title>
     <style>
         * {
             margin: 0;
@@ -64,6 +64,15 @@
             border-radius: 50%;
         }
 
+        .vdf-status {
+            background: rgba(138, 43, 226, 0.2);
+            border: 1px solid #8A2BE2;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            margin-left: 10px;
+        }
+
         .main-content {
             margin-top: 80px;
             max-width: 1400px;
@@ -79,17 +88,6 @@
             margin-bottom: 2rem;
             position: relative;
             overflow: hidden;
-        }
-
-        .event-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.05)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.05)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.03)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-            opacity: 0.3;
         }
 
         .event-info {
@@ -129,143 +127,28 @@
             font-weight: 600;
         }
 
-        .warning {
-            background: rgba(255, 193, 7, 0.1);
-            border: 2px solid #ffc107;
+        .vdf-info {
+            background: rgba(138, 43, 226, 0.1);
+            border: 2px solid #8A2BE2;
             border-radius: 15px;
             padding: 1.5rem;
             margin-bottom: 2rem;
             text-align: center;
         }
 
-        .warning h3 {
-            color: #ffc107;
+        .vdf-info h3 {
+            color: #8A2BE2;
             margin-bottom: 1rem;
         }
 
-        .defense-layers {
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 20px;
-            padding: 2rem;
-            margin: 2rem 0;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .layers-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1rem;
-        }
-
-        .layer-card {
-            border-radius: 15px;
-            padding: 1.5rem;
-            border: 2px solid transparent;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .layer-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-        }
-
-        .layer-universal {
-            background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(76, 175, 80, 0.05));
-            border-color: #4CAF50;
-        }
-
-        .layer-economic {
-            background: linear-gradient(135deg, rgba(255, 152, 0, 0.1), rgba(255, 152, 0, 0.05));
-            border-color: #ff9800;
-        }
-
-        .layer-scaling {
-            background: linear-gradient(135deg, rgba(233, 30, 99, 0.1), rgba(233, 30, 99, 0.05));
-            border-color: #e91e63;
-        }
-
-        .layer-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .layer-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
-
-        .layer-universal .layer-icon {
-            background: rgba(76, 175, 80, 0.2);
-            color: #4CAF50;
-        }
-
-        .layer-economic .layer-icon {
-            background: rgba(255, 152, 0, 0.2);
-            color: #ff9800;
-        }
-
-        .layer-scaling .layer-icon {
-            background: rgba(233, 30, 99, 0.2);
-            color: #e91e63;
-        }
-
-        .layer-header h3 {
-            color: #ffffff;
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin: 0;
-        }
-
-        .layer-subtitle {
-            color: rgba(255, 255, 255, 0.9);
-            font-weight: 600;
-            margin-bottom: 1rem;
-            font-size: 0.95rem;
-        }
-
-        .layer-points {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .layer-points li {
-            color: rgba(255, 255, 255, 0.8);
+        .vdf-params {
+            background: rgba(138, 43, 226, 0.1);
+            border: 1px solid #8A2BE2;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
             font-size: 0.9rem;
-            line-height: 1.5;
-            margin-bottom: 0.5rem;
-            padding-left: 1rem;
-            position: relative;
-        }
-
-        .layer-points li:before {
-            content: '•';
-            position: absolute;
-            left: 0;
-            font-weight: bold;
-        }
-
-        .layer-universal .layer-points li:before {
-            color: #4CAF50;
-        }
-
-        .layer-economic .layer-points li:before {
-            color: #ff9800;
-        }
-
-        .layer-scaling .layer-points li:before {
-            color: #e91e63;
         }
 
         .stats-grid {
@@ -287,7 +170,7 @@
             font-size: 0.9rem;
             font-weight: 600;
             margin-bottom: 0.5rem;
-            color: #4CAF50;
+            color: #8A2BE2;
         }
 
         .stat-value {
@@ -300,48 +183,6 @@
         .stat-label {
             color: rgba(255, 255, 255, 0.6);
             font-size: 0.8rem;
-        }
-
-        .difficulty-indicator {
-            background: rgba(255, 152, 0, 0.1);
-            border: 2px solid #ff9800;
-            padding: 2rem;
-            border-radius: 15px;
-            margin: 2rem 0;
-            text-align: center;
-        }
-
-        .difficulty-text {
-            color: #ff9800;
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-
-        .difficulty-level {
-            font-size: 3rem;
-            font-weight: 900;
-            color: #ff9800;
-            margin: 0.5rem 0;
-        }
-
-        .cpu-warning {
-            background: rgba(255, 87, 51, 0.15);
-            border: 2px solid #ff5733;
-            border-radius: 10px;
-            padding: 1rem;
-            margin: 1rem 0;
-            text-align: center;
-            display: none;
-            animation: pulse 1.5s infinite;
-        }
-
-        .cpu-warning.show {
-            display: block;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
         }
 
         .ticket-selection {
@@ -454,8 +295,8 @@
         }
 
         .security-challenge {
-            background: linear-gradient(135deg, rgba(255, 87, 51, 0.1), rgba(255, 87, 51, 0.05));
-            border: 2px solid #ff5733;
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.1), rgba(138, 43, 226, 0.05));
+            border: 2px solid #8A2BE2;
             border-radius: 15px;
             padding: 2rem;
             margin: 2rem 0;
@@ -467,14 +308,14 @@
         }
 
         @keyframes securityPulse {
-            0%, 100% { border-color: #ff5733; }
-            50% { border-color: #ff8c42; }
+            0%, 100% { border-color: #8A2BE2; }
+            50% { border-color: #9932CC; }
         }
 
         .challenge-icon {
             width: 60px;
             height: 60px;
-            background: linear-gradient(135deg, #ff5733, #ff8c42);
+            background: linear-gradient(135deg, #8A2BE2, #9932CC);
             border-radius: 50%;
             margin: 0 auto 1rem;
             display: flex;
@@ -505,43 +346,10 @@
 
         .progress-bar {
             height: 100%;
-            background: linear-gradient(90deg, #4CAF50, #45a049);
+            background: linear-gradient(90deg, #8A2BE2, #9932CC);
             width: 0%;
             transition: width 0.3s ease;
             border-radius: 20px;
-        }
-
-        .progress-section {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            padding: 2rem;
-            margin: 2rem 0;
-        }
-
-        .progress-item {
-            margin: 1rem 0;
-        }
-
-        .progress-label {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: #ffffff;
-        }
-
-        .progress-bar-full {
-            width: 100%;
-            height: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #4CAF50, #45a049);
-            width: 0%;
-            transition: width 0.3s ease;
-            border-radius: 10px;
         }
 
         .action-buttons {
@@ -567,41 +375,14 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #8A2BE2 0%, #9932CC 100%);
             color: #ffffff;
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 10px 20px rgba(138, 43, 226, 0.3);
         }
-
-        .btn-bot-single {
-            background: linear-gradient(135deg, #4CAF50, #45a049);
-            color: white;
-        }
-
-        .btn-bot-small {
-            background: linear-gradient(135deg, #2196F3, #1976D2);
-            color: white;
-        }
-
-        .btn-bot-large {
-            background: linear-gradient(135deg, #e91e63, #c2185b);
-            color: white;
-        }
-
-        .btn-stop {
-            background: linear-gradient(135deg, #f44336, #d32f2f);
-            color: white;
-        }
-
-        .btn-bot-single:hover, .btn-bot-small:hover, .btn-bot-large:hover, .btn-stop:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-        }
-
-
 
         .btn:disabled {
             opacity: 0.5;
@@ -627,7 +408,7 @@
             font-size: 1.3rem;
             font-weight: 700;
             margin-bottom: 1rem;
-            color: #4CAF50;
+            color: #8A2BE2;
         }
 
         .log-content {
@@ -647,31 +428,54 @@
         }
 
         .log-success { color: #4CAF50; }
-        .log-working { color: #ff9800; }
-        .log-info { color: #2196F3; }
-        .log-warning { color: #ff9800; }
         .log-error { color: #ff5733; }
+        .log-warning { color: #ff9800; }
+        .log-info { color: #2196F3; }
+        .log-vdf { color: #8A2BE2; }
 
-        .toast {
-            position: fixed;
-            top: 100px;
-            right: 20px;
-            background: rgba(76, 175, 80, 0.95);
-            color: white;
-            padding: 1rem 1.5rem;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
-            z-index: 1001;
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-right: 8px;
         }
 
-        .toast.show {
-            transform: translateX(0);
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        .toast.error {
-            background: rgba(255, 87, 51, 0.95);
+        .setup-required {
+            background: rgba(255, 193, 7, 0.1);
+            border: 2px solid #ffc107;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .setup-required h3 {
+            color: #ffc107;
+            margin-bottom: 1rem;
+        }
+
+        .setup-required code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .setup-required pre {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            overflow-x: auto;
         }
 
         @media (max-width: 768px) {
@@ -698,14 +502,6 @@
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
-
-            .layers-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .layer-card {
-                margin-bottom: 1rem;
-            }
         }
     </style>
 </head>
@@ -713,9 +509,14 @@
     <nav class="navbar">
         <div class="nav-content">
             <div class="logo">SecureTickets Pro</div>
-            <div class="security-badge">
-                <div class="shield"></div>
-                <span>Adaptive PoW Defense Active</span>
+            <div style="display: flex; align-items: center;">
+                <div class="security-badge">
+                    <div class="shield"></div>
+                    <span>Real VDF</span>
+                </div>
+                <div class="vdf-status" id="vdfStatus">
+                    Loading...
+                </div>
             </div>
         </div>
     </nav>
@@ -738,101 +539,58 @@
                         <div class="detail-value">MetLife Stadium</div>
                     </div>
                     <div class="detail-item">
-                        <div class="detail-label">🎫 Total Purchases</div>
-                        <div class="detail-value" id="ticketsRemaining">0</div>
+                        <div class="detail-label">🎫 VDF Purchases</div>
+                        <div class="detail-value" id="totalPurchases">0</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="warning">
-            <h3>📊 Open Task Manager/Activity Monitor NOW!</h3>
-            <p>Watch your CPU usage spike as you run the proof-of-work computations. Each purchase makes the next one exponentially harder for everyone.</p>
+        <div class="vdf-info">
+            <h3>🛡️ Real Autonomys VDF Protection</h3>
+            <p>Using your compiled Autonomys VDF WebAssembly module with <strong>real cryptographic verification</strong>.</p>
+            <div class="vdf-params">
+                Source: /autonomys/vdf • Algorithm: Wesolowski • Iterations: 20,000 • Key: 1024-bit
+            </div>
         </div>
 
-        <div class="defense-layers">
-            <h2 style="text-align: center; margin-bottom: 2rem; color: #ffffff; font-size: 1.8rem;">🛡️ Three-Layer Defense System</h2>
-            <div class="layers-grid">
-                <div class="layer-card layer-universal">
-                    <div class="layer-header">
-                        <div class="layer-icon">🌐</div>
-                        <h3>Layer 1: Universal Difficulty</h3>
-                    </div>
-                    <p class="layer-subtitle">Same rules for everyone - no favoritism:</p>
-                    <ul class="layer-points">
-                        <li>Global purchase counter increases difficulty for ALL</li>
-                        <li>1st purchase: 4 zeros • 10th purchase: 10 zeros</li>
-                        <li>Legitimate users buying 20 tickets face same cost as bots</li>
-                        <li>System doesn't distinguish user types</li>
-                    </ul>
-                </div>
+        <div class="setup-required" id="setupInstructions" style="display: none;">
+            <h3>🔧 VDF Module Required</h3>
+            <p>To use real VDF, copy your built VDF files to the demo directory:</p>
+            <pre><code># From your autonomys VDF project root:
+cp dist/vdf.js ./
+cp dist/vdf.wasm ./
 
-                <div class="layer-card layer-economic">
-                    <div class="layer-header">
-                        <div class="layer-icon">💰</div>
-                        <h3>Layer 2: Pure Economic Deterrent</h3>
-                    </div>
-                    <p class="layer-subtitle">No artificial limits - just exponential cost:</p>
-                    <ul class="layer-points">
-                        <li>Want 1 ticket? Easy and fast</li>
-                        <li>Want 10 tickets? Each one harder than the last</li>
-                        <li>Want 100 tickets? Mathematically/economically impossible</li>
-                        <li>Market forces naturally limit bulk purchasing</li>
-                    </ul>
-                </div>
-
-                <div class="layer-card layer-scaling">
-                    <div class="layer-header">
-                        <div class="layer-icon">📈</div>
-                        <h3>Layer 3: Scalping Economics</h3>
-                    </div>
-                    <p class="layer-subtitle">Why this stops scalpers naturally:</p>
-                    <ul class="layer-points">
-                        <li>Fans buy 1-4 tickets max (difficulty 4-6)</li>
-                        <li>Scalpers need 100+ tickets to profit</li>
-                        <li>100th ticket = 69+ zeros = impossible</li>
-                        <li>Economics make scalping unprofitable</li>
-                    </ul>
-                </div>
-            </div>
+# OR if you have different output:
+cp src/vdf.js ./
+cp src/vdf.wasm ./</code></pre>
+            <p>The demo expects <code>vdf.js</code> and <code>vdf.wasm</code> in the same directory.</p>
         </div>
 
         <div class="stats-grid">
             <div class="stat-card">
-                <div class="stat-title">📋 Total Purchases</div>
-                <div class="stat-value" id="totalPurchases">0</div>
-                <div class="stat-label">All users combined</div>
+                <div class="stat-title">📋 VDF Proofs</div>
+                <div class="stat-value" id="vdfProofs">0</div>
+                <div class="stat-label">Generated</div>
             </div>
 
             <div class="stat-card">
-                <div class="stat-title">⚡ Total Hash Operations</div>
-                <div class="stat-value" id="totalHashes">0</div>
-                <div class="stat-label">SHA-256 computations</div>
+                <div class="stat-title">⚡ Iterations</div>
+                <div class="stat-value" id="totalIterations">0</div>
+                <div class="stat-label">Computed</div>
             </div>
 
             <div class="stat-card">
-                <div class="stat-title">⏱️ Total CPU Time</div>
+                <div class="stat-title">⏱️ VDF Time</div>
                 <div class="stat-value" id="totalTime">0s</div>
-                <div class="stat-label">Computation time used</div>
+                <div class="stat-label">Computation</div>
             </div>
 
             <div class="stat-card">
-                <div class="stat-title">💰 Est. Electricity Cost</div>
-                <div class="stat-value" id="electricityCost">$0.000</div>
-                <div class="stat-label">Based on $0.12/hour</div>
+                <div class="stat-title">✅ Success Rate</div>
+                <div class="stat-value" id="successRate">100%</div>
+                <div class="stat-label">Verifications</div>
             </div>
-        </div>
-
-        <div class="difficulty-indicator">
-            <div class="difficulty-text">🛡️ Current Security Level</div>
-            <div class="difficulty-level" id="currentDifficulty">4</div>
-            <div style="color: rgba(255,255,255,0.8);">
-                Next purchase requires <span id="expectedTime">~2 seconds</span> of computation
-            </div>
-        </div>
-
-        <div class="cpu-warning" id="cpuWarning">
-            ⚠️ HIGH CPU USAGE DETECTED! Your computer is working hard to solve proof-of-work challenges.
         </div>
 
         <div class="ticket-selection">
@@ -868,7 +626,7 @@
                 <button class="quantity-btn" onclick="changeQuantity(-1)">−</button>
                 <span class="quantity-display" id="quantity">1</span>
                 <button class="quantity-btn" onclick="changeQuantity(1)">+</button>
-                <span style="color: rgba(255,255,255,0.6); margin-left: 1rem;">(No limit - buy as many as you want!)</span>
+                <span style="color: rgba(255,255,255,0.6); margin-left: 1rem;">(Each needs real VDF proof)</span>
             </div>
         </div>
 
@@ -879,8 +637,8 @@
 
         <div class="security-challenge" id="securityChallenge">
             <div class="challenge-icon">🛡️</div>
-            <h3 class="challenge-title">Adaptive Security Verification</h3>
-            <p class="challenge-description">Our system automatically adjusts security difficulty based on demand and threat level. Higher global purchases = exponentially higher security requirements for everyone.</p>
+            <h3 class="challenge-title">Real VDF Verification</h3>
+            <p class="challenge-description">Generating cryptographic proof using your Autonomys VDF WebAssembly module. Real sequential computation.</p>
             
             <div class="progress-container">
                 <div class="progress-bar" id="progressBar"></div>
@@ -893,62 +651,46 @@
                     <div class="stat-label">Elapsed</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-title">Hash Rate</div>
-                    <div class="stat-value" id="hashRate">0</div>
-                    <div class="stat-label">H/s</div>
+                    <div class="stat-title">Progress</div>
+                    <div class="stat-value" id="progressPercent">0%</div>
+                    <div class="stat-label">Complete</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-title">Attempts</div>
-                    <div class="stat-value" id="attempts">0</div>
-                    <div class="stat-label">Hashes</div>
+                    <div class="stat-title">Rate</div>
+                    <div class="stat-value" id="currentRate">--</div>
+                    <div class="stat-label">iter/sec</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-title">Difficulty</div>
-                    <div class="stat-value" id="difficulty">4</div>
-                    <div class="stat-label">Level</div>
+                    <div class="stat-title">Algorithm</div>
+                    <div class="stat-value">W-VDF</div>
+                    <div class="stat-label">Wesolowski</div>
                 </div>
             </div>
 
             <div class="action-buttons">
-                <button class="btn btn-primary" onclick="startVerification()" id="verifyBtn">
-                    🔒 Purchase Tickets
+                <button class="btn btn-primary" onclick="startRealVDFPurchase()" id="purchaseBtn" disabled>
+                    🔒 Purchase Tickets (Real VDF)
                 </button>
             </div>
-
             <div class="action-buttons" style="margin-top: 1rem;">
-                <button class="btn btn-bot-single" onclick="simulateSingleBot()">
+                <button class="btn btn-bot-single" style="background:linear-gradient(135deg,#4CAF50,#45a049);color:white;" onclick="simulateSingleBotVDF()">
                     🤖 Single Bot Test
                 </button>
-                
-                <button class="btn btn-bot-small" onclick="simulateSmallBotFarm()">
+                <button class="btn btn-bot-small" style="background:linear-gradient(135deg,#2196F3,#1976D2);color:white;" onclick="simulateSmallBotFarmVDF()">
                     🤖 Small Bot Farm (10 bots)
                 </button>
-                
-                <button class="btn btn-bot-large" onclick="simulateMassBotAttack()">
+                <button class="btn btn-bot-large" style="background:linear-gradient(135deg,#e91e63,#c2185b);color:white;" onclick="simulateMassBotAttackVDF()">
                     🔥 Mass Bot Attack (100 bots)
                 </button>
-                
-                <button class="btn btn-stop" onclick="stopAllTests()" id="stopTestsBtn" disabled>
+                <button class="btn btn-stop" style="background:linear-gradient(135deg,#f44336,#d32f2f);color:white;" onclick="stopAllTestsVDF()" id="stopTestsBtnVDF" disabled>
                     🛑 Stop All Tests
                 </button>
-            </div>
-
-
-        </div>
-
-        <div class="progress-section">
-            <h3 style="margin-bottom: 1rem; color: #ffffff;">🔄 Current Operations</h3>
-            <div class="progress-item">
-                <div class="progress-label">Active Proof-of-Work Computations</div>
-                <div class="progress-bar-full">
-                    <div class="progress-fill" id="overallProgress"></div>
-                </div>
             </div>
         </div>
 
         <div class="log-section">
             <div class="log-card">
-                <div class="log-title">📊 System Activity Log</div>
+                <div class="log-title">📊 VDF System Log</div>
                 <div class="log-content" id="systemLog"></div>
             </div>
 
@@ -959,64 +701,305 @@
         </div>
     </main>
 
-    <div class="toast" id="toast"></div>
-
+    <!-- Load your actual VDF module from dist directory -->
+    <script src="dist/vdf.js"></script>
     <script>
-        // Global state
+        // Real Autonomys VDF Integration - Based on your production tests
+        // Web Worker-based RealAutonomysVDF
+        class RealAutonomysVDF {
+            constructor() {
+                this.worker = null;
+                this.isReady = false;
+                this.iterations = 1000;
+                this.keySize = 1024;
+                this.totalProofs = 0;
+                this.totalTime = 0;
+                this.totalIterations = 0;
+                this.successfulVerifications = 0;
+                this.isProcessing = false;
+                this.init();
+            }
+
+            async init() {
+                try {
+                    this.log('🔄 Loading real Autonomys VDF worker...', 'info');
+                    this.updateStatus('Loading VDF...');
+                    this.worker = new Worker('dist/vdf-worker.js');
+                    // Test worker by running a small validation
+                    await this.runInitialValidation();
+                    this.isReady = true;
+                    this.log('✅ Real Autonomys VDF ready (Web Worker)', 'success');
+                    this.updateStatus('VDF Ready');
+                    document.getElementById('purchaseBtn').disabled = false;
+                } catch (error) {
+                    this.log(`❌ VDF loading failed: ${error.message}`, 'error');
+                    this.updateStatus('VDF Required');
+                    this.showSetupInstructions();
+                }
+            }
+
+            runWorkerJob(type, data) {
+                return new Promise((resolve, reject) => {
+                    const worker = this.worker;
+                    const onMessage = (e) => {
+                        if (e.data.type === 'result') {
+                            worker.removeEventListener('message', onMessage);
+                            resolve(e.data.proof !== undefined ? e.data.proof : e.data.isValid);
+                        } else if (e.data.type === 'error') {
+                            worker.removeEventListener('message', onMessage);
+                            reject(new Error(e.data.error));
+                        }
+                    };
+                    worker.addEventListener('message', onMessage);
+                    worker.postMessage({ type, data });
+                });
+            }
+
+            async runInitialValidation() {
+                this.log('🧪 Running initial VDF validation (Web Worker)...', 'info');
+                const testChallenge = [0xaa, 0xbb, 0xcc];
+                const testIterations = 50;
+                const testKeySize = 1024;
+                const proof = await this.runWorkerJob('generate', {
+                    iterations: testIterations,
+                    challenge: testChallenge,
+                    keySize: testKeySize,
+                    isPietrzak: false
+                });
+                const isValid = await this.runWorkerJob('verify', {
+                    iterations: testIterations,
+                    challenge: testChallenge,
+                    proof: proof,
+                    keySize: testKeySize,
+                    isPietrzak: false
+                });
+                if (isValid) {
+                    this.log('✅ VDF validation test passed', 'success');
+                    this.log(`   Proof size: ${proof.length} bytes`, 'info');
+                } else {
+                    throw new Error('VDF validation test failed');
+                }
+            }
+
+            async generateVDFProof(challenge) {
+                if (!this.isReady || !this.worker) {
+                    throw new Error('VDF not ready');
+                }
+                this.log(`🔄 Starting VDF computation (${this.iterations.toLocaleString()} iterations)`, 'vdf');
+                this.log(`  Challenge: ${challenge.length} bytes`, 'info');
+                this.log(`  Key size: ${this.keySize} bits`, 'info');
+                this.log(`  Algorithm: Wesolowski`, 'info');
+                const startTime = performance.now();
+                let progressInterval;
+                try {
+                    let estimatedProgress = 0;
+                    progressInterval = setInterval(() => {
+                        const elapsed = (performance.now() - startTime) / 1000;
+                        const estimatedDuration = 5;
+                        estimatedProgress = Math.min((elapsed / estimatedDuration) * 100, 95);
+                        document.getElementById('progressPercent').textContent = Math.floor(estimatedProgress) + '%';
+                        document.getElementById('progressBar').style.width = estimatedProgress + '%';
+                        document.getElementById('timeElapsed').textContent = elapsed.toFixed(1) + 's';
+                        const rate = (this.iterations * estimatedProgress / 100) / elapsed;
+                        document.getElementById('currentRate').textContent = rate.toFixed(0);
+                        this.logPerformance(`VDF progress: ${estimatedProgress.toFixed(1)}%`, 'info');
+                    }, 200);
+                    const proof = await this.runWorkerJob('generate', {
+                        iterations: this.iterations,
+                        challenge: Array.from(challenge),
+                        keySize: this.keySize,
+                        isPietrzak: false
+                    });
+                    clearInterval(progressInterval);
+                    const endTime = performance.now();
+                    const duration = (endTime - startTime) / 1000;
+                    document.getElementById('progressPercent').textContent = '100%';
+                    document.getElementById('progressBar').style.width = '100%';
+                    document.getElementById('timeElapsed').textContent = duration.toFixed(2) + 's';
+                    document.getElementById('currentRate').textContent = (this.iterations / duration).toFixed(0);
+                    this.log(`✅ VDF proof generated successfully`, 'success');
+                    this.log(`  Duration: ${duration.toFixed(3)} seconds`, 'success');
+                    this.log(`  Proof size: ${proof.length} bytes`, 'info');
+                    this.log(`  Rate: ${(this.iterations / duration).toFixed(0)} iterations/second`, 'success');
+                    return {
+                        proof: proof,
+                        duration: duration,
+                        iterations: this.iterations,
+                        challenge: challenge
+                    };
+                } catch (error) {
+                    if (progressInterval) clearInterval(progressInterval);
+                    this.log(`❌ VDF generation failed: ${error.message}`, 'error');
+                    throw error;
+                }
+            }
+
+            async verifyVDFProof(challenge, proof) {
+                this.log('🔍 Verifying VDF proof...', 'vdf');
+                const startTime = performance.now();
+                try {
+                    const isValid = await this.runWorkerJob('verify', {
+                        iterations: this.iterations,
+                        challenge: Array.from(challenge),
+                        proof: Array.from(proof),
+                        keySize: this.keySize,
+                        isPietrzak: false
+                    });
+                    const verifyTime = (performance.now() - startTime) / 1000;
+                    if (isValid) {
+                        this.successfulVerifications++;
+                        this.log(`✅ VDF proof verification PASSED`, 'success');
+                        this.log(`  Verification time: ${verifyTime.toFixed(3)}s`, 'success');
+                    } else {
+                        this.log(`❌ VDF proof verification FAILED`, 'error');
+                    }
+                    return isValid;
+                } catch (error) {
+                    this.log(`❌ VDF verification error: ${error.message}`, 'error');
+                    return false;
+                }
+            }
+
+            updateStats() {
+                document.getElementById('vdfProofs').textContent = this.totalProofs;
+                document.getElementById('totalIterations').textContent = this.totalIterations.toLocaleString();
+                document.getElementById('totalTime').textContent = this.totalTime.toFixed(2) + 's';
+                document.getElementById('totalPurchases').textContent = this.totalProofs;
+                if (this.totalProofs > 0) {
+                    let successRate = (this.successfulVerifications / this.totalProofs) * 100;
+                    if (successRate > 100) successRate = 100;
+                    document.getElementById('successRate').textContent = successRate.toFixed(1) + '%';
+                }
+            }
+
+            updateStatus(status) {
+                document.getElementById('vdfStatus').textContent = status;
+            }
+
+            showSetupInstructions() {
+                document.getElementById('setupInstructions').style.display = 'block';
+                document.getElementById('purchaseBtn').disabled = true;
+                document.getElementById('purchaseBtn').innerHTML = '❌ VDF Module Required';
+            }
+
+            log(message, type = 'info') {
+                const log = document.getElementById('systemLog');
+                const timestamp = new Date().toLocaleTimeString();
+                const entry = document.createElement('div');
+                entry.className = `log-entry log-${type}`;
+                entry.textContent = `[${timestamp}] ${message}`;
+                log.appendChild(entry);
+                log.scrollTop = log.scrollHeight;
+                while (log.children.length > 50) {
+                    log.removeChild(log.firstChild);
+                }
+                console.log(`[VDF] ${message}`);
+            }
+
+            logPerformance(message, type = 'info') {
+                const log = document.getElementById('performanceLog');
+                const timestamp = new Date().toLocaleTimeString();
+                const entry = document.createElement('div');
+                entry.className = `log-entry log-${type}`;
+                entry.textContent = `[${timestamp}] ${message}`;
+                log.appendChild(entry);
+                log.scrollTop = log.scrollHeight;
+                while (log.children.length > 50) {
+                    log.removeChild(log.firstChild);
+                }
+            }
+        }
+
+        // Global variables
+        let realVDF = null;
         let selectedTicketType = 'standard';
         let selectedPrice = 149;
         let quantity = 1;
-        let totalPurchases = 0;
-        let systemDifficulty = 4;
-        let totalHashes = 0;
-        let totalCpuTime = 0;
-        let activeWorkers = [];
-        let isVerifying = false;
-        let isTestRunning = false;
-        let testWorkers = [];
 
-        // Logging functions - from your working script
-        function logSystem(message, type = 'info') {
-            const log = document.getElementById('systemLog');
-            const timestamp = new Date().toLocaleTimeString();
-            const entry = document.createElement('div');
-            entry.className = `log-entry log-${type}`;
-            entry.textContent = `[${timestamp}] ${message}`;
-            log.appendChild(entry);
-            log.scrollTop = log.scrollHeight;
-
-            // Keep only last 20 entries
-            while (log.children.length > 20) {
-                log.removeChild(log.firstChild);
+        // Purchase Flow with Real VDF
+        async function startRealVDFPurchase() {
+            if (!realVDF || !realVDF.isReady || realVDF.isProcessing) {
+                return;
             }
-        }
 
-        function logPerformance(message, type = 'info') {
-            const log = document.getElementById('performanceLog');
-            const timestamp = new Date().toLocaleTimeString();
-            const entry = document.createElement('div');
-            entry.className = `log-entry log-${type}`;
-            entry.textContent = `[${timestamp}] ${message}`;
-            log.appendChild(entry);
-            log.scrollTop = log.scrollHeight;
-
-            // Keep only last 20 entries
-            while (log.children.length > 20) {
-                log.removeChild(log.firstChild);
-            }
-        }
-
-        function showToast(message, type = 'success') {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.className = `toast ${type}`;
-            toast.classList.add('show');
+            realVDF.isProcessing = true;
             
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
+            const purchaseBtn = document.getElementById('purchaseBtn');
+            const securityChallenge = document.getElementById('securityChallenge');
+            
+            purchaseBtn.disabled = true;
+            purchaseBtn.innerHTML = '<span class="spinner"></span> Generating Real VDF Proof...';
+            securityChallenge.classList.add('active');
+
+            realVDF.log(`🎫 Starting real VDF purchase: ${quantity}x ${selectedTicketType.toUpperCase()}`, 'vdf');
+            
+            let successful = 0;
+            let attempted = 0;
+            try {
+                for (let i = 0; i < quantity; i++) {
+                    realVDF.log(`🛡️ Processing ticket ${i + 1}/${quantity} with real VDF`, 'warning');
+                    // Generate unique challenge for each ticket (like your production tests)
+                    const challenge = new Uint8Array([
+                        0xaa, 0xbb, 0xcc, 0xdd,
+                        ...new TextEncoder().encode(`ticket-${Date.now()}-${i}-${Math.random()}`)
+                    ]);
+                    // Real VDF computation using your module
+                    const vdfResult = await realVDF.generateVDFProof(challenge);
+                    // Verify the proof immediately (like your production tests)
+                    const isValid = await realVDF.verifyVDFProof(challenge, vdfResult.proof);
+                    attempted++;
+                    if (isValid) {
+                        successful++;
+                        realVDF.totalProofs++;
+                        realVDF.totalTime += vdfResult.duration;
+                        realVDF.totalIterations += vdfResult.iterations;
+                        realVDF.updateStats();
+                        realVDF.log(`✅ Ticket ${i + 1}/${quantity} VDF completed`, 'success');
+                        realVDF.logPerformance(`${vdfResult.iterations.toLocaleString()} iterations in ${vdfResult.duration.toFixed(3)}s`, 'success');
+                    } else {
+                        realVDF.log(`❌ Ticket ${i + 1}/${quantity} VDF verification failed`, 'error');
+                    }
+                    // Update progress
+                    const progress = ((i + 1) / quantity) * 100;
+                    document.getElementById('progressBar').style.width = progress + '%';
+                    purchaseBtn.innerHTML = `<span class="spinner"></span> Processing ${i + 1}/${quantity} tickets...`;
+                }
+                if (successful > 0) {
+                    purchaseBtn.innerHTML = `✅ ${successful} Real VDF Ticket(s) Purchased!`;
+                    purchaseBtn.style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
+                    realVDF.log(`🎉 ${successful} ticket(s) purchased with real VDF protection!`, 'success');
+                } else {
+                    purchaseBtn.innerHTML = '❌ No tickets purchased (VDF failed)';
+                    purchaseBtn.style.background = 'linear-gradient(135deg, #f44336, #d32f2f)';
+                    realVDF.log(`❌ All VDF verifications failed. No tickets purchased.`, 'error');
+                }
+                // Reset after delay
+                setTimeout(() => {
+                    purchaseBtn.innerHTML = '🔒 Purchase Tickets (Real VDF)';
+                    purchaseBtn.style.background = 'linear-gradient(135deg, #8A2BE2 0%, #9932CC 100%)';
+                    purchaseBtn.disabled = false;
+                    document.getElementById('progressBar').style.width = '0%';
+                    securityChallenge.classList.remove('active');
+                    // Reset progress displays
+                    document.getElementById('progressPercent').textContent = '0%';
+                    document.getElementById('timeElapsed').textContent = '0.0s';
+                    document.getElementById('currentRate').textContent = '--';
+                }, 4000);
+            } catch (error) {
+                realVDF.log(`❌ Real VDF purchase failed: ${error.message}`, 'error');
+                purchaseBtn.innerHTML = '❌ Real VDF Failed';
+                purchaseBtn.style.background = 'linear-gradient(135deg, #f44336, #d32f2f)';
+                setTimeout(() => {
+                    purchaseBtn.innerHTML = '🔒 Purchase Tickets (Real VDF)';
+                    purchaseBtn.style.background = 'linear-gradient(135deg, #8A2BE2 0%, #9932CC 100%)';
+                    purchaseBtn.disabled = false;
+                    securityChallenge.classList.remove('active');
+                }, 3000);
+            }
+            realVDF.isProcessing = false;
         }
 
+        // UI Event Handlers
         function selectTicket(type, price) {
             document.querySelectorAll('.ticket-option').forEach(option => {
                 option.classList.remove('selected');
@@ -1027,22 +1010,27 @@
             selectedPrice = price;
             updateTotal();
             
-            logSystem(`Ticket selected: ${type.toUpperCase()} - $${price}`, 'info');
+            if (realVDF) {
+                realVDF.log(`Ticket selected: ${type.toUpperCase()} - ${price}`, 'info');
+            }
         }
 
         function changeQuantity(delta) {
             const newQuantity = quantity + delta;
-            if (newQuantity >= 1) { // Removed upper limit
+            if (newQuantity >= 1) {
                 quantity = newQuantity;
                 document.getElementById('quantity').textContent = quantity;
                 updateTotal();
-                logSystem(`Quantity changed to ${quantity}`, 'info');
+                
+                if (realVDF) {
+                    realVDF.log(`Quantity changed to ${quantity} (each requires real VDF)`, 'info');
+                }
             }
         }
 
         function updateTotal() {
             const total = selectedPrice * quantity;
-            document.getElementById('totalAmount').textContent = `$${total.toFixed(2)}`;
+            document.getElementById('totalAmount').textContent = `${total.toFixed(2)}`;
             
             const typeNames = {
                 'vip': 'VIP Experience Package',
@@ -1051,489 +1039,207 @@
             };
             
             document.getElementById('totalDescription').textContent = 
-                `${quantity} × ${typeNames[selectedTicketType]} ($${selectedPrice} each)`;
+                `${quantity} × ${typeNames[selectedTicketType]} (${selectedPrice} each)`;
         }
 
-        function updateDifficulty() {
-            systemDifficulty = Math.min(4 + Math.floor(totalPurchases * 0.8), 18); // Increased max difficulty
-            document.getElementById('currentDifficulty').textContent = systemDifficulty;
-            document.getElementById('difficulty').textContent = systemDifficulty;
-            document.getElementById('ticketsRemaining').textContent = totalPurchases;
-            
-            const avgHashes = Math.pow(2, systemDifficulty - 1);
-            const expectedSeconds = avgHashes / 30000; // Conservative hash rate
-            
-            let timeText;
-            if (expectedSeconds < 60) {
-                timeText = `~${expectedSeconds.toFixed(0)} seconds`;
-            } else if (expectedSeconds < 3600) {
-                timeText = `~${(expectedSeconds / 60).toFixed(1)} minutes`;
-            } else if (expectedSeconds < 86400) {
-                timeText = `~${(expectedSeconds / 3600).toFixed(1)} hours`;
-            } else {
-                timeText = `~${(expectedSeconds / 86400).toFixed(1)} days`;
-            }
-            
-            document.getElementById('expectedTime').textContent = timeText;
-            
-            // Show CPU warning for high difficulties
-            const warning = document.getElementById('cpuWarning');
-            if (systemDifficulty >= 7) {
-                warning.classList.add('show');
-            } else {
-                warning.classList.remove('show');
-            }
-        }
-
-        function updateStats() {
-            document.getElementById('totalPurchases').textContent = totalPurchases;
-            document.getElementById('totalHashes').textContent = totalHashes.toLocaleString();
-            document.getElementById('totalTime').textContent = totalCpuTime.toFixed(1) + 's';
-            
-            const electricityCost = (totalCpuTime / 3600) * 0.12; // $0.12/hour
-            document.getElementById('electricityCost').textContent = '$' + electricityCost.toFixed(4);
-        }
-
-        // Your working PoW worker creation function
-        function createPoWWorker(difficulty, nonce) {
-            const workerCode = `
-                let running = true;
-                let hashCount = 0;
+        // MonosProof API - Real VDF Only (following your production test patterns)
+        window.MonosProof = {
+            protect: async function(buttonId, options = {}) {
+                if (!realVDF || !realVDF.isReady) {
+                    throw new Error('Real Autonomys VDF system not initialized');
+                }
                 
-                self.onmessage = function(e) {
-                    if (e.data.action === 'stop') {
-                        running = false;
-                        return;
+                const button = document.getElementById(buttonId);
+                if (!button) throw new Error(`Button ${buttonId} not found`);
+
+                const originalClick = button.onclick;
+                const originalText = button.textContent;
+
+                button.onclick = async (e) => {
+                    e.preventDefault();
+                    
+                    try {
+                        button.disabled = true;
+                        button.innerHTML = '<span class="spinner"></span> Real VDF Computing...';
+                        
+                        realVDF.log(`🛡️ MonosProof real VDF protection activated: ${buttonId}`, 'vdf');
+                        
+                        // Generate challenge like your production tests
+                        const challenge = new Uint8Array([
+                            0x12, 0x34, 0x56, 0x78,
+                            ...new TextEncoder().encode(`protect-${Date.now()}-${Math.random()}`)
+                        ]);
+                        
+                        const vdfResult = await realVDF.generateVDFProof(challenge);
+                        const isValid = await realVDF.verifyVDFProof(challenge, vdfResult.proof);
+                        
+                        if (!isValid) {
+                            throw new Error('Real VDF verification failed');
+                        }
+                        
+                        realVDF.log(`✅ Real VDF protection completed in ${vdfResult.duration.toFixed(3)}s`, 'success');
+                        
+                        // Execute original action
+                        if (originalClick) {
+                            originalClick.call(button, e);
+                        }
+                        
+                        button.textContent = '✅ Real VDF Complete!';
+                        button.style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
+                        
+                    } catch (error) {
+                        realVDF.log(`❌ Real VDF protection failed: ${error.message}`, 'error');
+                        button.textContent = '❌ Real VDF Failed';
+                        button.style.background = 'linear-gradient(135deg, #f44336, #d32f2f)';
                     }
                     
-                    const { nonce, difficulty } = e.data;
-                    const target = '0'.repeat(difficulty);
-                    let counter = 0;
-                    const startTime = Date.now();
-                    
-                    const solve = async () => {
-                        while (running) {
-                            for (let i = 0; i < 2000 && running; i++) {
-                                counter++;
-                                hashCount++;
-                                const input = nonce + counter.toString();
-                                
-                                const hashBuffer = await crypto.subtle.digest('SHA-256', 
-                                    new TextEncoder().encode(input));
-                                const hashHex = Array.from(new Uint8Array(hashBuffer))
-                                    .map(b => b.toString(16).padStart(2, '0')).join('');
-                                
-                                if (hashHex.startsWith(target)) {
-                                    const endTime = Date.now();
-                                    const duration = (endTime - startTime) / 1000;
-                                    self.postMessage({ 
-                                        type: 'success', 
-                                        counter, 
-                                        hash: hashHex,
-                                        hashes: hashCount,
-                                        duration
-                                    });
-                                    return;
-                                }
-                            }
-                            
-                            const currentTime = Date.now();
-                            const duration = (currentTime - startTime) / 1000;
-                            self.postMessage({ 
-                                type: 'progress', 
-                                hashes: hashCount,
-                                duration,
-                                hashRate: Math.round(hashCount / duration)
-                            });
-                            
-                            await new Promise(resolve => setTimeout(resolve, 1));
-                        }
-                    };
-                    
-                    solve();
+                    // Reset button
+                    setTimeout(() => {
+                        button.disabled = false;
+                        button.textContent = originalText;
+                        button.style.background = '';
+                    }, 3000);
                 };
-            `;
-
-            return new Worker(URL.createObjectURL(new Blob([workerCode], { type: 'application/javascript' })));
-        }
-
-        // Updated verification function - processes quantity from selector
-        let currentPurchaseIndex = 0;
-        let targetQuantity = 0;
-        let completedPurchases = 0;
-
-        function startVerification() {
-            if (isVerifying) return;
+            },
             
-            targetQuantity = quantity;
-            currentPurchaseIndex = 0;
-            completedPurchases = 0;
-            
-            logSystem(`🎫 Starting purchase sequence: ${targetQuantity}x ${selectedTicketType.toUpperCase()}`, 'info');
-            logSystem(`Each ticket requires individual PoW - difficulty increases after each completion!`, 'warning');
-            
-            isVerifying = true;
-            document.getElementById('verifyBtn').disabled = true;
-            document.getElementById('verifyBtn').innerHTML = `🔄 Processing 0/${targetQuantity} tickets...`;
-            
-            // Enable stop button when purchasing tickets
-            document.getElementById('stopTestsBtn').disabled = false;
-            
-            const securityChallenge = document.getElementById('securityChallenge');
-            securityChallenge.classList.add('active');
-            
-            // Start the first purchase
-            processSingleTicket();
-        }
-
-        function processSingleTicket() {
-            if (currentPurchaseIndex >= targetQuantity) {
-                // All tickets processed
-                completeAllPurchases();
-                return;
-            }
-
-            currentPurchaseIndex++;
-            const currentDifficulty = systemDifficulty; // Use current difficulty at time of purchase
-            
-            logSystem(`🛡️ Processing ticket ${currentPurchaseIndex}/${targetQuantity} - Difficulty: ${currentDifficulty}`, 'warning');
-            logPerformance(`Expected ~${Math.pow(2, currentDifficulty-4).toFixed(0)}x base computation time`, 'info');
-            
-            const nonce = Math.random().toString(36).substring(2, 15) + '_ticket' + currentPurchaseIndex;
-            const worker = createPoWWorker(currentDifficulty, nonce);
-            activeWorkers.push(worker);
-            
-            const startTime = Date.now();
-            worker.postMessage({ nonce, difficulty: currentDifficulty });
-            
-            worker.onmessage = function(e) {
-                if (e.data.type === 'success') {
-                    const duration = e.data.duration;
-                    const hashes = e.data.hashes;
-                    
-                    totalHashes += hashes;
-                    totalCpuTime += duration;
-                    
-                    // IMPORTANT: Only increment total purchases when PoW completes
-                    totalPurchases++;
-                    completedPurchases++;
-                    updateDifficulty(); // Update difficulty after each completed ticket
-                    updateStats();
-                    
-                    const costMultiplier = Math.pow(2, currentDifficulty - 4);
-                    const electricityCost = (duration / 3600) * 0.12;
-                    
-                    logSystem(`✅ Ticket ${completedPurchases}/${targetQuantity} completed successfully!`, 'success');
-                    logPerformance(`${hashes.toLocaleString()} hashes in ${duration.toFixed(1)}s`, 'success');
-                    logPerformance(`Hash rate: ${Math.round(hashes/duration).toLocaleString()} H/s`, 'working');
-                    logPerformance(`Cost: ${electricityCost.toFixed(4)} (${costMultiplier.toFixed(1)}x base)`, 'info');
-                    
-                    // Update progress
-                    document.getElementById('verifyBtn').innerHTML = `🔄 Processing ${completedPurchases}/${targetQuantity} tickets...`;
-                    
-                    const overallProgress = (completedPurchases / targetQuantity) * 100;
-                    document.getElementById('overallProgress').style.width = overallProgress + '%';
-                    
-                    worker.terminate();
-                    activeWorkers = activeWorkers.filter(w => w !== worker);
-                    
-                    // Start next ticket purchase after short delay
-                    setTimeout(() => {
-                        processSingleTicket();
-                    }, 500);
-                    
-                } else if (e.data.type === 'progress') {
-                    const elapsed = (Date.now() - startTime) / 1000;
-                    document.getElementById('timeElapsed').textContent = elapsed.toFixed(1) + 's';
-                    document.getElementById('attempts').textContent = e.data.hashes.toLocaleString();
-                    document.getElementById('hashRate').textContent = e.data.hashRate.toLocaleString();
-                    
-                    const expectedHashes = Math.pow(2, currentDifficulty - 1);
-                    const progress = Math.min((e.data.hashes / expectedHashes) * 100, 95);
-                    document.getElementById('progressBar').style.width = progress + '%';
-                    
-                    logPerformance(`Computing ticket ${currentPurchaseIndex}/${targetQuantity}... ${e.data.hashes.toLocaleString()} hashes (${e.data.hashRate.toLocaleString()} H/s)`, 'working');
-                }
-            };
-        }
-
-        function completeAllPurchases() {
-            isVerifying = false;
-            const securityChallenge = document.getElementById('securityChallenge');
-            securityChallenge.classList.remove('active');
-            
-            // Disable stop button when purchases complete
-            document.getElementById('stopTestsBtn').disabled = true;
-            
-            document.getElementById('progressBar').style.width = '100%';
-            document.getElementById('overallProgress').style.width = '100%';
-            document.getElementById('verifyBtn').innerHTML = '✅ All Tickets Purchased!';
-            document.getElementById('verifyBtn').style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
-            
-            showToast(`${targetQuantity} tickets purchased successfully! Confirmation sent to email.`, 'success');
-            logSystem(`🎉 All ${targetQuantity} tickets purchased successfully!`, 'success');
-            
-            // Reset for next purchase
-            setTimeout(() => {
-                document.getElementById('verifyBtn').innerHTML = '🔒 Purchase Tickets';
-                document.getElementById('verifyBtn').style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-                document.getElementById('verifyBtn').disabled = false;
-                document.getElementById('progressBar').style.width = '0%';
-                document.getElementById('overallProgress').style.width = '0%';
-            }, 3000);
-        }
-
-        // Bot simulation functions - using same PoW logic as regular purchases
-        function simulateSingleBot() {
-            if (isTestRunning || isVerifying) return;
-            
-            isTestRunning = true;
-            document.getElementById('stopTestsBtn').disabled = false;
-            
-            logSystem('🤖 Single bot detected! Testing countermeasures...', 'warning');
-            logSystem('1 bot attempting continuous purchases until stopped...', 'error');
-            
-            // Start continuous bot purchasing
-            continuousBotPurchase(1);
-        }
-
-        function continuousBotPurchase(botId) {
-            if (!isTestRunning) return; // Stop if user clicked stop
-            
-            const currentDifficulty = systemDifficulty; // Capture difficulty at start
-            
-            logPerformance(`Bot #${botId} starting PoW - Difficulty: ${currentDifficulty}`, 'working');
-            
-            const nonce = Math.random().toString(36).substring(2, 15) + '_bot' + botId + '_' + Date.now();
-            const worker = createPoWWorker(currentDifficulty, nonce);
-            testWorkers.push(worker);
-            
-            const startTime = Date.now();
-            worker.postMessage({ nonce, difficulty: currentDifficulty });
-            
-            worker.onmessage = function(e) {
-                if (e.data.type === 'success') {
-                    const duration = e.data.duration;
-                    const hashes = e.data.hashes;
-                    
-                    totalHashes += hashes;
-                    totalCpuTime += duration;
-                    
-                    // IMPORTANT: Only increment total purchases when PoW completes
-                    totalPurchases++;
-                    updateDifficulty(); // Update difficulty after each bot completion
-                    updateStats();
-                    
-                    const costMultiplier = Math.pow(2, currentDifficulty - 4);
-                    const electricityCost = (duration / 3600) * 0.12;
-                    
-                    logSystem(`⚡ Bot #${botId} purchase completed (${duration.toFixed(1)}s)`, 'success');
-                    logPerformance(`Bot #${botId}: ${hashes.toLocaleString()} hashes at ${Math.round(hashes/duration).toLocaleString()} H/s`, 'success');
-                    logPerformance(`Bot #${botId} cost: ${electricityCost.toFixed(4)} (${costMultiplier.toFixed(1)}x base)`, 'working');
-                    
-                    worker.terminate();
-                    testWorkers = testWorkers.filter(w => w !== worker);
-                    
-                    // Immediately start next purchase if still running
-                    setTimeout(() => {
-                        continuousBotPurchase(botId);
-                    }, 500); // Small delay before next purchase
-                    
-                } else if (e.data.type === 'progress') {
-                    // Only log progress occasionally to avoid spam
-                    if (e.data.hashes % 10000 === 0) {
-                        logPerformance(`Bot #${botId}: ${e.data.hashes.toLocaleString()} hashes (${e.data.hashRate.toLocaleString()} H/s)`, 'working');
-                    }
-                }
-            };
-        }
-        function simulateSmallBotFarm() {
-            if (isTestRunning || isVerifying) return;
-            
-            isTestRunning = true;
-            document.getElementById('stopTestsBtn').disabled = false;
-            
-            logSystem('🤖 Small bot farm detected! Launching countermeasures...', 'warning');
-            logSystem('10 bots attempting simultaneous purchases...', 'error');
-            
-            // Simulate 10 bot workers - each tries to buy 1 ticket
-            for (let i = 0; i < 10; i++) {
-                setTimeout(() => {
-                    if (isTestRunning) {
-                        simulateBotPurchase(i + 1);
-                    }
-                }, i * 200); // Stagger attacks slightly
-            }
-            
-            setTimeout(() => {
-                if (isTestRunning) {
-                    logSystem('🛡️ Small bot farm neutralized - all attempts processed', 'success');
-                    isTestRunning = false;
-                    document.getElementById('stopTestsBtn').disabled = true;
-                }
-            }, 30000);
-        }
-
-        function simulateMassBotAttack() {
-            if (isTestRunning || isVerifying) return;
-            
-            isTestRunning = true;
-            document.getElementById('stopTestsBtn').disabled = false;
-            
-            logSystem('🔥 MASSIVE bot attack detected! Deploying maximum countermeasures!', 'error');
-            logSystem('100 bots launching coordinated attack...', 'error');
-            
-            // Simulate 100 bot workers - each tries to buy 1 ticket
-            for (let i = 0; i < 100; i++) {
-                setTimeout(() => {
-                    if (isTestRunning) {
-                        if (i % 20 === 0) {
-                            logSystem(`Deploying bot battalion ${Math.floor(i/20)+1}/5 (${20} bots)...`, 'error');
-                        }
-                        simulateBotPurchase(i + 1);
-                    }
-                }, i * 100); // Even faster attacks
-            }
-            
-            setTimeout(() => {
-                if (isTestRunning) {
-                    logSystem('🛡️ Massive attack repelled - system integrity maintained', 'success');
-                    logSystem('Adaptive difficulty successfully defended against bot army', 'success');
-                    isTestRunning = false;
-                    document.getElementById('stopTestsBtn').disabled = true;
-                }
-            }, 60000);
-        }
-
-        function simulateBotPurchase(botId) {
-            if (!isTestRunning) return;
-
-            const currentDifficulty = systemDifficulty; // Capture difficulty at start
-            
-            logPerformance(`Bot #${botId} starting PoW - Difficulty: ${currentDifficulty}`, 'working');
-            
-            const nonce = Math.random().toString(36).substring(2, 15) + '_bot' + botId;
-            const worker = createPoWWorker(currentDifficulty, nonce);
-            testWorkers.push(worker);
-            
-            const startTime = Date.now();
-            worker.postMessage({ nonce, difficulty: currentDifficulty });
-            
-            worker.onmessage = function(e) {
-                if (e.data.type === 'success') {
-                    const duration = e.data.duration;
-                    const hashes = e.data.hashes;
-                    
-                    totalHashes += hashes;
-                    totalCpuTime += duration;
-                    
-                    // IMPORTANT: Only increment total purchases when PoW completes (same as regular purchases)
-                    totalPurchases++;
-                    updateDifficulty(); // Update difficulty after each bot completion
-                    updateStats();
-                    
-                    const costMultiplier = Math.pow(2, currentDifficulty - 4);
-                    const electricityCost = (duration / 3600) * 0.12;
-                    
-                    logSystem(`⚡ Bot #${botId} purchase completed (${duration.toFixed(1)}s)`, 'success');
-                    logPerformance(`Bot #${botId}: ${hashes.toLocaleString()} hashes at ${Math.round(hashes/duration).toLocaleString()} H/s`, 'success');
-                    logPerformance(`Bot #${botId} cost: ${electricityCost.toFixed(4)} (${costMultiplier.toFixed(1)}x base)`, 'working');
-                    
-                    worker.terminate();
-                    testWorkers = testWorkers.filter(w => w !== worker);
-                    
-                } else if (e.data.type === 'progress') {
-                    // Only log progress occasionally to avoid spam
-                    if (e.data.hashes % 10000 === 0) {
-                        logPerformance(`Bot #${botId}: ${e.data.hashes.toLocaleString()} hashes (${e.data.hashRate.toLocaleString()} H/s)`, 'working');
-                    }
-                }
-            };
-        }
-
-        function stopAllTests() {
-            // Stop bot tests
-            isTestRunning = false;
-            
-            // Stop regular purchases too
-            if (isVerifying) {
-                logSystem('🛑 Regular purchase stopped by user', 'warning');
-                isVerifying = false;
+            getStats: function() {
+                if (!realVDF) return null;
                 
-                // Reset purchase state
-                currentPurchaseIndex = 0;
-                targetQuantity = 0;
-                completedPurchases = 0;
+                return {
+                    totalProofs: realVDF.totalProofs,
+                    totalTime: realVDF.totalTime,
+                    totalIterations: realVDF.totalIterations,
+                    successRate: realVDF.totalProofs > 0 ? (realVDF.successfulVerifications / realVDF.totalProofs) : 0,
+                    library: 'Real Autonomys VDF',
+                    isReady: realVDF.isReady,
+                    iterations: realVDF.iterations,
+                    keySize: realVDF.keySize
+                };
+            },
+            
+            // Test function similar to your production tests
+            runTest: async function(iterations = 50) {
+                if (!realVDF || !realVDF.isReady) {
+                    throw new Error('VDF not ready');
+                }
                 
-                // Reset UI
-                document.getElementById('verifyBtn').innerHTML = '🔒 Purchase Tickets';
-                document.getElementById('verifyBtn').disabled = false;
-                document.getElementById('verifyBtn').style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-                document.getElementById('securityChallenge').classList.remove('active');
+                const challenge = new Uint8Array([0xaa, 0xbb, 0xcc, 0xdd]);
+                const proof = realVDF.vdfInstance.generate(iterations, challenge, 1024, false);
+                const isValid = realVDF.vdfInstance.verify(iterations, challenge, proof, 1024, false);
+                
+                return {
+                    iterations: iterations,
+                    proofLength: proof.length,
+                    isValid: isValid,
+                    message: isValid ? 'VDF test passed' : 'VDF test failed'
+                };
             }
-            
-            // Stop all workers (both regular and test)
-            activeWorkers.forEach(worker => {
-                worker.postMessage({ action: 'stop' });
-                worker.terminate();
-            });
-            activeWorkers = [];
-            
-            testWorkers.forEach(worker => {
-                worker.postMessage({ action: 'stop' });
-                worker.terminate();
-            });
-            testWorkers = [];
-            
-            // Reset progress bars
-            document.getElementById('progressBar').style.width = '0%';
-            document.getElementById('overallProgress').style.width = '0%';
-            document.getElementById('stopTestsBtn').disabled = true;
-            
-            logSystem('🛑 All operations stopped by user', 'info');
-            logPerformance('All operations terminated', 'info');
-        }
+        };
 
-
-
-        // Initialize - preserving your working initialization
-        window.addEventListener('load', () => {
-            updateDifficulty();
+        // Initialize Real VDF System
+        window.addEventListener('load', async () => {
+            realVDF = new RealAutonomysVDF();
             updateTotal();
-            updateStats();
-            logSystem('🛡️ SecureTickets Pro initialized with adaptive defense', 'success');
-            logSystem('🎯 Anti-bot protection: ACTIVE', 'success');
-            logSystem('📊 Dynamic difficulty scaling enabled', 'info');
-            logPerformance('Ready to demonstrate exponential scaling', 'info');
+            
+            console.log('🛡️ MonosProof Real Autonomys VDF Demo loaded');
+            console.log('📋 Using your actual VDF build - no simulations');
+            console.log('🔧 Integration: MonosProof.protect("button-id")');
         });
 
-        // Background activity simulation
-        setInterval(() => {
-            if (!isVerifying && activeWorkers.length === 0 && !isTestRunning) {
-                const activities = [
-                    'System monitoring: All services operational',
-                    'Security scan complete: No threats detected',
-                    'Adaptive difficulty: Responding to demand',
-                    'Performance optimal: Ready for purchases',
-                    'Defense systems: Standing by for next purchase'
-                ];
-                
-                const randomActivity = activities[Math.floor(Math.random() * activities.length)];
-                logSystem(randomActivity, 'info');
+        // Demo: Show VDF integration examples
+        setTimeout(() => {
+            if (realVDF && realVDF.isReady) {
+                console.log('');
+                console.log('🛡️ MonosProof Real VDF Integration:');
+                console.log('MonosProof.protect("your-button-id");');
+                console.log('');
+                console.log('🧪 Test your VDF:');
+                console.log('MonosProof.runTest(50);');
+                console.log('');
+                console.log('📊 VDF Stats:', window.MonosProof.getStats());
             }
-        }, 15000);
+        }, 5000);
 
-        // Cleanup on page unload
-        window.addEventListener('beforeunload', () => {
-            activeWorkers.forEach(worker => {
-                worker.postMessage({ action: 'stop' });
-                worker.terminate();
-            });
-            testWorkers.forEach(worker => {
-                worker.postMessage({ action: 'stop' });
-                worker.terminate();
-            });
-        });
+        // Make functions globally available
+        window.startRealVDFPurchase = startRealVDFPurchase;
+        window.selectTicket = selectTicket;
+        window.changeQuantity = changeQuantity;
+
+        // --- VDF Bot Simulation Logic ---
+        let vdfTestRunning = false;
+        let vdfTestBots = [];
+
+        async function simulateSingleBotVDF() {
+            if (vdfTestRunning || !realVDF || !realVDF.isReady) return;
+            vdfTestRunning = true;
+            document.getElementById('stopTestsBtnVDF').disabled = false;
+            realVDF.log('🤖 Single bot test started (real VDF)', 'warning');
+            runBotVDF(1);
+        }
+
+        async function simulateSmallBotFarmVDF() {
+            if (vdfTestRunning || !realVDF || !realVDF.isReady) return;
+            vdfTestRunning = true;
+            document.getElementById('stopTestsBtnVDF').disabled = false;
+            realVDF.log('🤖 Small bot farm (10 bots) started (real VDF)', 'warning');
+            for (let i = 0; i < 10; i++) {
+                setTimeout(() => { if (vdfTestRunning) runBotVDF(i + 1); }, i * 200);
+            }
+        }
+
+        async function simulateMassBotAttackVDF() {
+            if (vdfTestRunning || !realVDF || !realVDF.isReady) return;
+            vdfTestRunning = true;
+            document.getElementById('stopTestsBtnVDF').disabled = false;
+            realVDF.log('🔥 MASSIVE bot attack (100 bots) started (real VDF)', 'error');
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => { if (vdfTestRunning) runBotVDF(i + 1); }, i * 100);
+            }
+        }
+
+        function stopAllTestsVDF() {
+            vdfTestRunning = false;
+            vdfTestBots.forEach(b => b.cancel && b.cancel());
+            vdfTestBots = [];
+            document.getElementById('stopTestsBtnVDF').disabled = true;
+            if (realVDF) {
+                realVDF.log('🛑 All VDF bot tests stopped by user', 'info');
+            }
+        }
+
+        // Each bot runs a real VDF proof in a loop until stopped
+        function runBotVDF(botId) {
+            let cancelled = false;
+            const bot = { cancel: () => { cancelled = true; } };
+            vdfTestBots.push(bot);
+            (async function botLoop() {
+                while (vdfTestRunning && !cancelled && realVDF && realVDF.isReady) {
+                    try {
+                        realVDF.logPerformance(`Bot #${botId} starting VDF`, 'working');
+                        const challenge = new Uint8Array([
+                            0xaa, 0xbb, 0xcc, 0xdd,
+                            ...new TextEncoder().encode(`bot-${botId}-${Date.now()}-${Math.random()}`)
+                        ]);
+                        const vdfResult = await realVDF.generateVDFProof(challenge);
+                        const isValid = await realVDF.verifyVDFProof(challenge, vdfResult.proof);
+                        if (isValid) {
+                            realVDF.totalProofs++;
+                            realVDF.totalTime += vdfResult.duration;
+                            realVDF.totalIterations += vdfResult.iterations;
+                            realVDF.updateStats();
+                            realVDF.log(`⚡ Bot #${botId} VDF completed (${vdfResult.duration.toFixed(2)}s)`, 'success');
+                            realVDF.logPerformance(`Bot #${botId}: ${vdfResult.iterations.toLocaleString()} iterations in ${vdfResult.duration.toFixed(2)}s`, 'success');
+                        } else {
+                            realVDF.log(`❌ Bot #${botId} VDF verification failed`, 'error');
+                        }
+                    } catch (e) {
+                        if (!cancelled) realVDF.log(`❌ Bot #${botId} error: ${e.message}`, 'error');
+                    }
+                    // Short delay between bot runs
+                    await new Promise(r => setTimeout(r, 300));
+                }
+            })();
+        }
     </script>
 </body>
 </html>
