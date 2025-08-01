@@ -1,5 +1,16 @@
 {
   "rewrites": [
     { "source": "/dist/(.*)", "destination": "/dist/$1" }
+  ],
+  "headers": [
+    {
+      "source": "/dist/vdf.wasm",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/wasm"
+        }
+      ]
+    }
   ]
 }
